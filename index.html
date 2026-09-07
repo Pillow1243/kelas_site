@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سایت کلاس ما | تکالیف، اطلاعیه‌ها و برنامه‌ی کلاس</title>
+<style>
+  :root{
+    --bg1:#0f172a; --bg2:#1e293b;
+    --panel:#ffffff; --ink:#0f172a; --muted:#64748b;
+    --brand:#6d5efc; --brand2:#3b82f6;
+    --ok:#10b981; --warn:#f59e0b; --bad:#ef4444;
+    --line:#e2e8f0; --soft:#f1f5f9;
+    --radius:18px;
+    --shadow:0 10px 30px rgba(2,6,23,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Vazirmatn","Segoe UI",Tahoma,"Iranian Sans",Arial,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(109,94,252,.35), transparent 60%),
+      radial-gradient(900px 500px at 0% 10%, rgba(59,130,246,.25), transparent 55%),
+      linear-gradient(160deg,var(--bg1),var(--bg2));
+    min-height:100vh; background-attachment:fixed;
+  }
+  a{color:var(--brand)}
+  button{font-family:inherit}
+  .wrap{max-width:980px;margin:0 auto;padding:22px 18px 60px}
+
+  /* ---------- Topbar ---------- */
+  .topbar{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:14px 18px;
+    border-radius:var(--radius);color:#fff;margin-bottom:20px}
+  .topbar .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+    display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .topbar .titles{flex:1}
+  .topbar h1{font-size:20px;margin:0;font-weight:800}
+  .topbar .sub{font-size:13px;color:#cbd5e1;margin-top:2px}
+  .topbar .home{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;font-size:13px}
+  .topbar .home:hover{background:rgba(255,255,255,.2)}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .badge.student{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.4)}
+  .badge.teacher{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.45)}
+
+  /* ---------- Cards ---------- */
+  .card{background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:18px;border:1px solid var(--line)}
+  .card h2{margin:0 0 4px;font-size:18px;font-weight:800}
+  .card .lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+
+  /* ---------- Forms ---------- */
+  label{display:block;font-size:13px;font-weight:700;color:#334155;margin:12px 0 6px}
+  input,textarea,select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);transition:.15s}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(109,94,252,.18)}
+  textarea{resize:vertical;min-height:90px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > div{flex:1;min-width:160px}
+  .btn{border:none;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px;justify-content:center}
+  .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 8px 20px rgba(109,94,252,.35)}
+  .btn.primary:hover{transform:translateY(-1px)}
+  .btn.ghost{background:var(--soft);color:#334155;border:1px solid var(--line)}
+  .btn.ghost:hover{background:#e2e8f0}
+  .btn.danger{background:#fef2f2;color:var(--bad);border:1px solid #fecaca}
+  .btn.sm{padding:8px 12px;font-size:12.5px;border-radius:9px}
+  .btn.block{width:100%}
+  .add-btn{width:100%;border:2px dashed var(--brand);background:rgba(109,94,252,.08);color:var(--brand);padding:13px;border-radius:14px;font-weight:800;cursor:pointer;margin-bottom:14px;transition:.15s}
+  .add-btn:hover{background:rgba(109,94,252,.16)}
+
+  /* ---------- Login ---------- */
+  #screen-login{max-width:430px;margin:40px auto}
+  .login-hero{text-align:center;color:#fff;margin-bottom:20px}
+  .login-hero .mc{font-size:46px}
+  .login-hero h2{font-size:24px;margin:8px 0 6px}
+  .login-hero p{color:#cbd5e1;margin:0;font-size:14px}
+  .role-switch{display:flex;gap:8px;background:rgba(255,255,255,.08);padding:6px;border-radius:14px;margin-bottom:16px}
+  .role-switch button{flex:1;border:none;background:transparent;color:#cbd5e1;padding:11px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14px}
+  .role-switch button.active{background:#fff;color:var(--brand)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.7}
+  .hint code{background:var(--soft);border:1px solid var(--line);padding:2px 7px;border-radius:7px;font-weight:700}
+  .err{background:#fef2f2;color:var(--bad);border:1px solid #fecaca;border-radius:11px;padding:10px 13px;font-size:13px;margin-top:12px;display:none}
+
+  /* ---------- Tabs ---------- */
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tabs button{flex:1;min-width:130px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#cbd5e1;padding:13px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;transition:.15s}
+  .tabs button.active{background:#fff;color:var(--brand);border-color:transparent;box-shadow:var(--shadow)}
+  .tabs button .cnt{font-size:12px;opacity:.7;margin-inline-start:6px}
+
+  /* ---------- List items ---------- */
+  .list{display:flex;flex-direction:column;gap:13px}
+  .item{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 14px rgba(2,6,23,.06)}
+  .item-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;flex-wrap:wrap}
+  .ttl{font-weight:800;font-size:16px}
+  .meta{color:var(--muted);font-size:12.5px;margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:5px;background:var(--soft);padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;color:#475569}
+  .chip.course{background:#eef2ff;color:#4338ca}
+  .due{font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .due.ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+  .due.soon{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+  .due.over{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+  .desc{color:#334155;font-size:14px;line-height:1.85;margin:10px 0 0;white-space:pre-wrap}
+  .link{display:inline-block;margin-top:10px;color:var(--brand);font-weight:700;font-size:13.5px;text-decoration:none}
+  .link:hover{text-decoration:underline}
+  .item-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+  /* ---------- Schedule ---------- */
+  .sched-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:13px}
+  .sched{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(2,6,23,.06);position:relative;text-align:center}
+  .sched .day{font-size:18px;font-weight:900;color:var(--brand)}
+  .sched .hr{font-size:15px;font-weight:700;color:#334155;margin-top:6px}
+  .sched .note{color:var(--muted);font-size:12.5px;margin-top:6px}
+  .sched.today{border:2px solid var(--brand);box-shadow:0 6px 22px rgba(109,94,252,.28)}
+  .sched .today-badge{position:absolute;top:12px;inset-inline-start:12px;background:var(--brand);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px}
+  .sched .item-actions{justify-content:center}
+
+  .empty{text-align:center;color:var(--muted);padding:34px 12px;font-size:14px}
+  .empty .big{font-size:40px;margin-bottom:8px}
+
+  /* ---------- Toast ---------- */
+  #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:#0f172a;color:#fff;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.3);transition:.28s;z-index:99;max-width:90%;text-align:center}
+  #toast.show{transform:translateX(-50%) translateY(0)}
+  #toast.ok{background:#065f46}
+  #toast.bad{background:#991b1b}
+
+  /* ---------- Modal ---------- */
+  .modal{position:fixed;inset:0;background:rgba(15,23,42,.6);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:24px;backdrop-filter:blur(3px);overflow:auto}
+  .modal.show{display:flex}
+  .modal .box{background:#fff;border-radius:18px;max-width:640px;width:100%;margin:auto;padding:22px;box-shadow:var(--shadow)}
+  .modal .box h3{margin:0 0 4px;font-size:18px}
+  .modal .box p{color:var(--muted);font-size:13px;margin:0 0 6px}
+  .modal .box .modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+  .stat{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .stat .s{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
+  .stat .s .n{font-size:26px;font-weight:900;color:var(--brand)}
+  .stat .s .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  .foot{color:#94a3b8;text-align:center;font-size:12.5px;margin-top:26px;line-height:1.8}
+  .foot b{color:#cbd5e1}
+  .settings-note{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:12px;line-height:1.7}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-inline-end:6px}
+  .dot.g{background:var(--ok)} .dot.r{background:var(--bad)}
+  .pill-sm{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:#475569;display:inline-block}
+  .teacher-note{background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:16px;line-height:1.7}
+  @media(max-width:560px){
+    .topbar .sub{display:none}
+    .row{flex-direction:column}
+    .row > div{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ LOGIN ============ -->
+  <div id="screen-login">
+    <div class="login-hero">
+      <div class="mc">🎒</div>
+      <h2>سایت کلاس ما</h2>
+      <p>تکالیف، اطلاعیه‌ها و برنامه‌ی کلاس</p>
+    </div>
+    <div class="card">
+      <div class="role-switch">
+        <button id="tab-student" class="active">🧑‍🎓 دانش‌آموز</button>
+        <button id="tab-teacher">🧑‍🏫 استاد</button>
+      </div>
+      <label for="pwd">رمز ورود</label>
+      <input id="pwd" type="password" inputmode="numeric" placeholder="رمز را وارد کنید" autocomplete="off" autofocus>
+      <div id="login-err" class="err"></div>
+      <div class="field-actions" style="margin-top:14px">
+        <button id="login-btn" class="btn primary block">ورود به سایت ←</button>
+      </div>
+      <p class="hint" id="hint"></p>
+    </div>
+    <div class="foot">ساخته‌شده برای کلاس برنامه‌نویسی 💻</div>
+  </div>
+
+  <!-- ============ APP ============ -->
+  <div id="screen-app" style="display:none">
+    <div class="topbar">
+      <div class="logo">🎒</div>
+      <div class="titles">
+        <h1>سایت کلاس ما</h1>
+        <div class="sub">تکالیف، اطلاعیه‌ها و برنامه‌ی کلاس</div>
+      </div>
+      <span id="role-badge" class="badge student"></span>
+      <button class="home" id="logout-btn">خروج</button>
+    </div>
+
+    <!-- ===== استاد: داشبورد مدیریت ===== -->
+    <div id="teacher-dash" style="display:none">
+      <div class="teacher-note">
+        🧑‍🏫 <b>حالت استاد</b> — از پایین می‌توانی تکلیف، اطلاعیه یا جلسه‌ی کلاس اضافه، ویرایش و حذف کنی.
+        تغییرات برای همه‌ی دانش‌آموزان ذخیره می‌شود.
+      </div>
+      <div class="stat">
+        <div class="s"><div class="n" id="n-assign">۰</div><div class="l">تکلیف</div></div>
+        <div class="s"><div class="n" id="n-ann">۰</div><div class="l">اطلاعیه</div></div>
+        <div class="s"><div class="n" id="n-sched">۰</div><div class="l">جلسه</div></div>
+        <div class="s"><div class="n" id="n-close">۰</div><div class="l">تکلیفِ نزدیک</div></div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ اتصال به گیت‌هاب <span style="font-weight:400;color:var(--muted);font-size:13px">(ذخیره‌ی مشترک)</span></h2>
+        <p class="lead">استاد با اتصال، داده‌ها را در فایل <b>data.json</b> داخل همین ریپو ذخیره می‌کند تا همه ببینند.</p>
+        <div class="settings-note">
+          تا وقتی متصل نشده، داده‌ها فقط روی همین مرورگر (دمو) ذخیره می‌شوند.
+        </div>
+        <div id="gh-status" class="pill-sm" style="margin-bottom:12px">وضعیت اتصال: …</div>
+        <div class="row">
+          <div><label>نام کاربری گیت‌هاب</label><input id="gh-owner" placeholder="مثلاً Pillow1243"></div>
+          <div><label>نام ریپو</label><input id="gh-repo" placeholder="مثلاً kelas_site"></div>
+        </div>
+        <div class="row">
+          <div><label>شاخه</label><input id="gh-branch" value="main"></div>
+          <div><label>مسیر فایل داده</label><input id="gh-path" value="data.json"></div>
+          <div><label>توکن شخصی (PAT)</label><input id="gh-token" type="password" placeholder="ghp_... یا github_pat_..."></div>
+        </div>
+        <div class="field-actions">
+          <button type="button" id="gh-save" class="btn primary">ذخیره‌ی اتصال</button>
+          <button type="button" id="gh-clear" class="btn ghost">قطع اتصال</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== تب‌ها ===== -->
+    <div class="tabs">
+      <button id="tab-assign" class="active">📚 تکالیف <span class="cnt" id="cnt-assign"></span></button>
+      <button id="tab-ann">📢 اطلاعیه‌ها <span class="cnt" id="cnt-ann"></span></button>
+      <button id="tab-sched">🗓 برنامه‌ی کلاس <span class="cnt" id="cnt-sched"></span></button>
+    </div>
+
+    <div id="panel-assign" class="list" style="display:block"></div>
+    <div id="panel-ann" class="list" style="display:none"></div>
+    <div id="panel-sched" style="display:none"></div>
+
+    <div class="foot">داده‌های این سایت از فایل <b>data.json</b> داخل ریپوی گیت‌هاب خونده می‌شه 💾</div>
+  </div>
+</div>
+
+<!-- ============ مودال: تکلیف ============ -->
+<div class="modal" id="modal-assign">
+  <div class="box">
+    <h3 id="m-assign-title">ثبت تکلیف جدید</h3>
+    <p>مشخصات را وارد کن؛ <b>تاریخ تحویل</b> را هم حتماً مشخص کن.</p>
+    <form id="frm-assign">
+      <div class="row">
+        <div><label for="a-title">عنوان تکلیف</label><input id="a-title" required placeholder="مثلاً: تمرین حلقه‌ها در پایتون"></div>
+        <div><label for="a-course">درس</label><input id="a-course" placeholder="مثلاً: برنامه‌نویسی پایتون"></div>
+      </div>
+      <div class="row">
+        <div><label for="a-due">📅 تاریخ تحویل</label><input id="a-due" type="date" required></div>
+        <div><label for="a-link">لینک / منبع (اختیاری)</label><input id="a-link" placeholder="https://..."></div>
+      </div>
+      <div><label for="a-desc">توضیح کامل تکلیف</label><textarea id="a-desc" required placeholder="شرح تکلیف، خواسته‌ها، نکات..."></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn primary">💾 ذخیره</button>
+        <button type="button" class="btn ghost" data-close="modal-assign">انصراف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ مودال: اطلاعیه ============ -->
+<div class="modal" id="modal-ann">
+  <div class="box">
+    <h3 id="m-ann-title">انتشار اطلاعیه</h3>
+    <p>اخبار کلاس، جلسات، تغییر ساعت و…</p>
+    <form id="frm-ann">
+      <div class="row">
+        <div><label for="n-title">عنوان</label><input id="n-title" required placeholder="مثلاً: کلاس هفته بعد لغو شد"></div>
+        <div><label for="n-date">🗓 تاریخ</label><input id="n-date" type="date" required></div>
+      </div>
+      <div><label for="n-content">متن اطلاعیه</label><textarea id="n-content" required placeholder="متن کامل..."></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn primary">💾 ذخیره</button>
+        <button type="button" class="btn ghost" data-close="modal-ann">انصراف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ مودال: جلسه کلاس ============ -->
+<div class="modal" id="modal-sched">
+  <div class="box">
+    <h3 id="m-sched-title">افزودن جلسه‌ی کلاس</h3>
+    <p>روز و ساعت برگزاری را مشخص کن.</p>
+    <form id="frm-sched">
+      <div class="row">
+        <div>
+          <label for="s-day">روز هفته</label>
+          <select id="s-day">
+            <option>شنبه</option>
+            <option>یکشنبه</option>
+            <option>دوشنبه</option>
+            <option>سه‌شنبه</option>
+            <option>چهارشنبه</option>
+            <option>پنج‌شنبه</option>
+            <option>جمعه</option>
+          </select>
+        </div>
+        <div><label for="s-start">از ساعت</label><input id="s-start" type="time" value="18:00" required></div>
+        <div><label for="s-end">تا ساعت</label><input id="s-end" type="time" value="19:30" required></div>
+      </div>
+      <div><label for="s-note">توضیح (اختیاری)</label><input id="s-note" placeholder="مثلاً: جلسه‌ی آنلاین / حضوری"></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn primary">💾 ذخیره</button>
+        <button type="button" class="btn ghost" data-close="modal-sched">انصراف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* =================================================================
+   تنظیمات پایه — رمزها را اینجا می‌توانی عوض کنی
+================================================================= */
+const CONFIG = {
+  studentPass: "1111",
+  teacherPass: "89463"       // در صفحه‌ی ورود نمایش داده نمی‌شود
+};
+const DEFAULT_DATA_PATH = "data.json";
+
+const LS_KEY = "classSite_data_v1";
+const GH_KEY = "classSite_gh_v1";
+
+const DAY_ORDER = ["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنج‌شنبه","جمعه"];
+
+/* ---------- ابزارک‌ها ---------- */
+const $  = s => document.querySelector(s);
+const uuid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+const toastEl = $("#toast");
+let toastTimer;
+function toast(msg, type="ok"){
+  toastEl.textContent = msg; toastEl.className = type;
+  requestAnimationFrame(()=>toastEl.classList.add("show"));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 2800);
+}
+function faNum(n){ try{ return Number(n).toLocaleString("fa-IR"); }catch(e){ return n; } }
+function faDate(iso){
+  if(!iso) return "";
+  try{ const d=new Date(iso+"T00:00:00"); return d.toLocaleDateString("fa-IR",{year:"numeric",month:"long",day:"numeric"}); }
+  catch(e){ return iso; }
+}
+function faTime(hhmm){
+  if(!hhmm) return "";
+  const p = String(hhmm).split(":");
+  const h = String(p[0]||"").padStart(2,"0");
+  const m = String(p[1]||"").padStart(2,"0");
+  return `${faNum(h)}:${faNum(m)}`;
+}
+function dueInfo(dueISO){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const d   = new Date(dueISO+"T00:00:00");
+  const diff= Math.round((d-now)/86400000);
+  let cls,txt;
+  if(diff<0){ cls="over"; txt="مهلت گذشته"; }
+  else if(diff===0){ cls="soon"; txt="امروز است!"; }
+  else if(diff===1){ cls="soon"; txt="تا فردا"; }
+  else if(diff<=3){ cls="soon"; txt=`${faNum(diff)} روز مانده`; }
+  else { cls="ok"; txt=`${faNum(diff)} روز مانده`; }
+  return {cls,txt};
+}
+function linkLabel(u){ try{ const x=new URL(u); return x.hostname.replace("www.","")+(x.pathname.length>1?x.pathname:""); }catch(e){ return u; } }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function safeUrl(u){ try{ const a=new URL(u,location.href); return (a.protocol==="http:"||a.protocol==="https:")?a.href:"#"; }catch(e){ return "#"; } }
+function todayFaWeekday(){ try{ return new Date().toLocaleDateString("fa-IR",{weekday:"long"}); }catch(e){ return ""; } }
+
+/* ---------- Data ---------- */
+const emptyData = () => ({ assignments:[], announcements:[], schedule:[] });
+function sanitize(d){
+  d = d || {};
+  return {
+    assignments: Array.isArray(d.assignments)?d.assignments:[],
+    announcements:Array.isArray(d.announcements)?d.announcements:[],
+    schedule: Array.isArray(d.schedule)?d.schedule:[]
+  };
+}
+
+const store = {
+  gh: null, data: emptyData(), loadedFrom:"local",
+  loadGhSettings(){ try{ this.gh = JSON.parse(localStorage.getItem(GH_KEY)||"null"); }catch(e){ this.gh=null; } },
+  init(){ this.loadGhSettings(); this.data = this.loadLocal(); },
+  loadLocal(){ try{ return sanitize(JSON.parse(localStorage.getItem(LS_KEY))); }catch(e){ return emptyData(); } },
+  saveLocal(){ localStorage.setItem(LS_KEY, JSON.stringify(this.data)); },
+  apiUrl(){ const g=this.gh; return `https://api.github.com/repos/${g.owner}/${g.repo}/contents/${g.path}`; },
+  ghReady(){ return this.gh && this.gh.owner && this.gh.repo && this.gh.token && this.gh.path; },
+
+  async fetchFromGithub(){
+    if(this.gh && this.ghReady()){
+      const r = await fetch(this.apiUrl(), {headers:{Authorization:`Bearer ${this.gh.token}`}});
+      if(!r.ok) throw new Error("فایل داده در گیت‌هاب پیدا نشد");
+      const j = await r.json();
+      return sanitize(JSON.parse(decodeURIComponent(escape(atob(j.content)))));
+    }
+    const r = await fetch(DEFAULT_DATA_PATH, {cache:"no-store"});
+    if(!r.ok) throw new Error("فایل داده پیدا نشد");
+    return sanitize(JSON.parse(await r.text()));
+  },
+
+  async pushToGithub(message){
+    const g=this.gh, url=this.apiUrl();
+    let sha=null;
+    try{ const h=await fetch(url,{headers:{Authorization:`Bearer ${g.token}`}}); if(h.ok){ const j=await h.json(); sha=j.sha; } }catch(e){}
+    const body={ message, content: btoa(unescape(encodeURIComponent(JSON.stringify(this.data,null,2)))), branch: g.branch, sha: sha||undefined };
+    const r=await fetch(url,{method:"PUT",headers:{Authorization:`Bearer ${g.token}`,"Content-Type":"application/json","Accept":"application/vnd.github+json"},body:JSON.stringify(body)});
+    if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||"خطا در ذخیره‌ی گیت‌هاب"); }
+    this.saveLocal();
+  },
+
+  async initForRole(role){
+    if(this.ghReady()){
+      try{ this.data=await this.fetchFromGithub(); this.loadedFrom="github"; return "loaded"; }
+      catch(e){ this.loadedFrom="local"; this.data=this.loadLocal(); return "fallback"; }
+    } else { this.data=this.loadLocal(); this.loadedFrom="local"; return "local"; }
+  },
+  async save(message){ if(this.ghReady()){ await this.pushToGithub(message||"به‌روزرسانی سایت کلاس"); this.loadedFrom="github"; } else { this.saveLocal(); } }
+};
+
+/* ---------- State ---------- */
+let role = null;
+let currentTab = "assign";
+let editingAssignId=null, editingAnnId=null, editingSchedId=null;
+
+function show(id){
+  $("#screen-login").style.display = (id==="login")?"":"none";
+  $("#screen-app").style.display   = (id==="app")?"":"none";
+}
+
+/* ---------- Render ---------- */
+function renderSchedule(){
+  const today = todayFaWeekday();
+  const list = store.data.schedule.slice().sort((a,b)=>{
+    const da=DAY_ORDER.indexOf(a.day), db=DAY_ORDER.indexOf(b.day);
+    if(da!==db) return da-db;
+    return String(a.start).localeCompare(b.start);
+  });
+  $("#cnt-sched").textContent = `(${faNum(list.length)})`;
+  const box = $("#panel-sched");
+  if(!list.length){
+    box.innerHTML = `<div class="empty"><div class="big">🗓</div>هنوز جلسه‌ای ثبت نشده است.</div>`;
+    return;
+  }
+  box.innerHTML = `<div class="sched-grid">` + list.map(s=>{
+    const isToday = s.day===today;
+    const editBtn = role==="teacher" ? `<div class="item-actions">
+      <button class="btn sm ghost" onclick='editSched("${s.id}")'>✏️</button>
+      <button class="btn sm danger" onclick='delSched("${s.id}")'>🗑</button></div>`:"";
+    return `<div class="sched ${isToday?'today':''}">
+      ${isToday?`<span class="today-badge">امروز</span>`:""}
+      <div class="day">${esc(s.day)}</div>
+      <div class="hr">🕐 ${faTime(s.start)} تا ${faTime(s.end)}</div>
+      ${s.note?`<div class="note">${esc(s.note)}</div>`:""}
+      ${editBtn}
+    </div>`;
+  }).join("") + `</div>`;
+}
+
+function render(){
+  const assign = store.data.assignments.slice().sort((a,b)=>String(a.due||"").localeCompare(String(b.due||"")));
+  const ann    = store.data.announcements.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+  const sched  = store.data.schedule;
+
+  $("#cnt-assign").textContent = `(${faNum(assign.length)})`;
+  $("#cnt-ann").textContent = `(${faNum(ann.length)})`;
+
+  if(role==="teacher"){
+    $("#n-assign").textContent = faNum(assign.length);
+    $("#n-ann").textContent = faNum(ann.length);
+    $("#n-sched").textContent = faNum(sched.length);
+    $("#n-close").textContent = faNum(assign.filter(a=>{const i=dueInfo(a.due); return i.cls==="soon"||i.cls==="over";}).length);
+  }
+
+  // --- تکالیف ---
+  const pa = $("#panel-assign");
+  const addBtn = role==="teacher" ? `<button class="add-btn" onclick="openAssign()">＋ افزودن تکلیف جدید</button>` : "";
+  if(!assign.length){
+    pa.innerHTML = addBtn + `<div class="empty"><div class="big">📚</div>هنوز تکلیفی ثبت نشده است.</div>`;
+  } else {
+    pa.innerHTML = addBtn + assign.map(a=>{
+      const due = dueInfo(a.due);
+      const link = a.link ? `<a class="link" href="${safeUrl(a.link)}" target="_blank" rel="noopener">🔗 ${linkLabel(a.link)}</a>`:"";
+      const actions = role==="teacher" ? `<div class="item-actions">
+        <button class="btn sm ghost" onclick='editAssign("${a.id}")'>✏️ ویرایش</button>
+        <button class="btn sm danger" onclick='delAssign("${a.id}")'>🗑 حذف</button></div>`:"";
+      return `<div class="item">
+        <div class="item-head">
+          <div>
+            <div class="ttl">${esc(a.title)}</div>
+            <div class="meta">
+              ${a.course?`<span class="chip course">📖 ${esc(a.course)}</span>`:""}
+              <span class="chip">🗓 تحویل: ${faDate(a.due)}</span>
+            </div>
+          </div>
+          <span class="due ${due.cls}">${due.txt}</span>
+        </div>
+        <p class="desc">${esc(a.desc)}</p>
+        ${link}${actions}
+      </div>`;
+    }).join("");
+  }
+
+  // --- اطلاعیه‌ها ---
+  const pn = $("#panel-ann");
+  const addAnn = role==="teacher" ? `<button class="add-btn" onclick="openAnn()">＋ ثبت اطلاعیه‌ی جدید</button>` : "";
+  if(!ann.length){
+    pn.innerHTML = addAnn + `<div class="empty"><div class="big">📢</div>هنوز اطلاعیه‌ای منتشر نشده است.</div>`;
+  } else {
+    pn.innerHTML = addAnn + ann.map(a=>{
+      const actions = role==="teacher" ? `<div class="item-actions">
+        <button class="btn sm ghost" onclick='editAnn("${a.id}")'>✏️ ویرایش</button>
+        <button class="btn sm danger" onclick='delAnn("${a.id}")'>🗑 حذف</button></div>`:"";
+      return `<div class="item">
+        <div class="item-head">
+          <div class="ttl">${esc(a.title)}</div>
+          <span class="chip">📅 ${faDate(a.date)}</span>
+        </div>
+        <p class="desc">${esc(a.content)}</p>
+        ${actions}
+      </div>`;
+    }).join("");
+  }
+
+  renderSchedule();
+}
+
+function switchTab(tab){
+  currentTab = tab;
+  $("#tab-assign").classList.toggle("active", tab==="assign");
+  $("#tab-ann").classList.toggle("active", tab==="ann");
+  $("#tab-sched").classList.toggle("active", tab==="sched");
+  $("#panel-assign").style.display = tab==="assign"?"":"none";
+  $("#panel-ann").style.display    = tab==="ann"?"":"none";
+  $("#panel-sched").style.display  = tab==="sched"?"":"none";
+}
+
+async function enterApp(r){
+  role=r; show("app");
+  $("#teacher-dash").style.display = (role==="teacher")?"":"none";
+  const b=$("#role-badge");
+  if(role==="teacher"){ b.className="badge teacher"; b.textContent="🧑‍🏫 حالت استاد"; }
+  else { b.className="badge student"; b.textContent="🧑‍🎓 حالت دانش‌آموز"; }
+  const how = await store.initForRole(role);
+  if(how==="fallback" && role==="student"){ toast("هنوز فایل داده در گیت‌هاب نیست؛ اگر استاد اتصال را تنظیم کرده بهتر می‌شود 🙂","bad"); }
+  switchTab("assign");
+  renderRoleChrome();
+  render();
+}
+
+function renderRoleChrome(){
+  if(role!=="teacher") return;
+  const st=$("#gh-status");
+  if(store.ghReady()){ st.innerHTML=`<span class="dot g"></span> متصل به گیت‌هاب (${esc(store.gh.owner)}/${esc(store.gh.repo)})`; }
+  else { st.innerHTML=`<span class="dot r"></span> حالت دمو — داده‌ها فقط روی این مرورگر`; }
+}
+
+/* ---------- ورود / خروج ---------- */
+function doLogin(){
+  const v=$("#pwd").value.trim();
+  const wantTeacher = $("#tab-teacher").classList.contains("active");
+  const err=$("#login-err"); err.style.display="none";
+  const ok = wantTeacher ? v===CONFIG.teacherPass : v===CONFIG.studentPass;
+  if(!ok){ err.textContent="رمز اشتباه است! دوباره تلاش کنید."; err.style.display="block"; $("#pwd").value=""; return; }
+  sessionStorage.setItem("classSite_role", wantTeacher?"teacher":"student");
+  enterApp(wantTeacher?"teacher":"student");
+}
+function logout(){ sessionStorage.removeItem("classSite_role"); role=null; show("login"); $("#pwd").value=""; setRoleForLogin(true); }
+function setRoleForLogin(student){
+  $("#tab-student").classList.toggle("active", student);
+  $("#tab-teacher").classList.toggle("active", !student);
+  // فقط رمز دانش‌آموز نمایش داده می‌شود؛ رمز استاد نمایش داده نمی‌شود
+  $("#hint").innerHTML = student
+    ? `رمز ورود دانش‌آموز: <code>1111</code> — دیدن تکالیف، اطلاعیه‌ها و برنامه`
+    : `ورود به‌عنوان استاد`;
+  $("#pwd").placeholder = student ? "رمز دانش‌آموز" : "رمز استاد";
+}
+
+/* ---------- مودال‌ها ---------- */
+function openModal(id){ $("#"+id).classList.add("show"); }
+function closeModal(id){ $("#"+id).classList.remove("show"); const f=$("#"+id).querySelector("form"); if(f) f.reset(); }
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeModal(b.dataset.close)));
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m) closeModal(m.id); }));
+
+/* --- تکلیف --- */
+function openAssign(){ editingAssignId=null; $("#m-assign-title").textContent="ثبت تکلیف جدید"; $("#a-due").min=new Date().toISOString().slice(0,10); openModal("modal-assign"); }
+window.editAssign=function(id){
+  const a=store.data.assignments.find(x=>x.id===id); if(!a) return;
+  editingAssignId=id; $("#m-assign-title").textContent="ویرایش تکلیف";
+  $("#a-title").value=a.title||""; $("#a-course").value=a.course||""; $("#a-due").value=a.due||"";
+  $("#a-link").value=a.link||""; $("#a-desc").value=a.desc||"";
+  openModal("modal-assign");
+};
+window.delAssign=async function(id){
+  const a=store.data.assignments.find(x=>x.id===id); if(!a) return;
+  if(!confirm(`حذف تکلیف «${a.title}»؟`)) return;
+  store.data.assignments=store.data.assignments.filter(x=>x.id!==id);
+  await commit("تکلیف حذف شد");
+};
+$("#frm-assign").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const obj={ title:$("#a-title").value.trim(), course:$("#a-course").value.trim(), due:$("#a-due").value, link:$("#a-link").value.trim(), desc:$("#a-desc").value.trim() };
+  if(editingAssignId){ const i=store.data.assignments.findIndex(x=>x.id===editingAssignId); if(i>-1) store.data.assignments[i]={...store.data.assignments[i],...obj}; toast("تکلیف ویرایش شد ✅"); editingAssignId=null; }
+  else { store.data.assignments.push({id:uuid(),...obj,createdAt:Date.now()}); toast("تکلیف ثبت شد ✅"); }
+  closeModal("modal-assign");
+  await commit("ثبت/ویرایش تکلیف");
+});
+
+/* --- اطلاعیه --- */
+function openAnn(){ editingAnnId=null; $("#m-ann-title").textContent="انتشار اطلاعیه"; openModal("modal-ann"); }
+window.editAnn=function(id){
+  const a=store.data.announcements.find(x=>x.id===id); if(!a) return;
+  editingAnnId=id; $("#m-ann-title").textContent="ویرایش اطلاعیه";
+  $("#n-title").value=a.title||""; $("#n-date").value=a.date||""; $("#n-content").value=a.content||"";
+  openModal("modal-ann");
+};
+window.delAnn=async function(id){
+  const a=store.data.announcements.find(x=>x.id===id); if(!a) return;
+  if(!confirm(`حذف اطلاعیه «${a.title}»؟`)) return;
+  store.data.announcements=store.data.announcements.filter(x=>x.id!==id);
+  await commit("حذف اطلاعیه");
+};
+$("#frm-ann").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const obj={ title:$("#n-title").value.trim(), content:$("#n-content").value.trim(), date:$("#n-date").value };
+  if(editingAnnId){ const i=store.data.announcements.findIndex(x=>x.id===editingAnnId); if(i>-1) store.data.announcements[i]={...store.data.announcements[i],...obj}; toast("اطلاعیه ویرایش شد ✅"); editingAnnId=null; }
+  else { store.data.announcements.push({id:uuid(),...obj,createdAt:Date.now()}); toast("اطلاعیه منتشر شد ✅"); }
+  closeModal("modal-ann");
+  await commit("ثبت/ویرایش اطلاعیه");
+});
+
+/* --- جلسه --- */
+function openSched(){ editingSchedId=null; $("#m-sched-title").textContent="افزودن جلسه‌ی کلاس"; openModal("modal-sched"); }
+window.editSched=function(id){
+  const s=store.data.schedule.find(x=>x.id===id); if(!s) return;
+  editingSchedId=id; $("#m-sched-title").textContent="ویرایش جلسه";
+  $("#s-day").value=s.day||""; $("#s-start").value=s.start||""; $("#s-end").value=s.end||""; $("#s-note").value=s.note||"";
+  openModal("modal-sched");
+};
+window.delSched=async function(id){
+  const s=store.data.schedule.find(x=>x.id===id); if(!s) return;
+  if(!confirm(`حذف جلسه‌ی ${s.day}؟`)) return;
+  store.data.schedule=store.data.schedule.filter(x=>x.id!==id);
+  await commit("جلسه حذف شد");
+};
+$("#frm-sched").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const obj={ day:$("#s-day").value, start:$("#s-start").value, end:$("#s-end").value, note:$("#s-note").value.trim() };
+  if(editingSchedId){ const i=store.data.schedule.findIndex(x=>x.id===editingSchedId); if(i>-1) store.data.schedule[i]={...store.data.schedule[i],...obj}; toast("جلسه ویرایش شد ✅"); editingSchedId=null; }
+  else { store.data.schedule.push({id:uuid(),...obj}); toast("جلسه ثبت شد ✅"); }
+  closeModal("modal-sched");
+  await commit("ثبت/ویرایش جلسه");
+});
+
+/* ---------- گیت‌هاب ---------- */
+function fillGhSettings(){ const g=store.gh||{}; $("#gh-owner").value=g.owner||""; $("#gh-repo").value=g.repo||""; $("#gh-branch").value=g.branch||"main"; $("#gh-path").value=g.path||"data.json"; $("#gh-token").value=g.token||""; }
+$("#gh-save").addEventListener("click", async ()=>{
+  store.gh={ owner:$("#gh-owner").value.trim().replace(/^https?:\/\/github\.com\//,""), repo:$("#gh-repo").value.trim(), branch:$("#gh-branch").value.trim()||"main", path:$("#gh-path").value.trim()||"data.json", token:$("#gh-token").value.trim() };
+  localStorage.setItem(GH_KEY,JSON.stringify(store.gh));
+  if(!store.ghReady()){ toast("تنظیمات ناقص است","bad"); renderRoleChrome(); return; }
+  toast("در حال اتصال…","ok");
+  try{ store.data=await store.fetchFromGithub(); store.loadedFrom="github"; toast("به گیت‌هاب متصل شد ✅","ok"); }
+  catch(e){
+    try{ await store.pushToGithub("ایجاد فایل داده‌های سایت کلاس"); store.loadedFrom="github"; toast("اتصال برقرار و فایل داده ساخته شد ✅","ok"); }
+    catch(e2){ toast("اتصال نشد: "+e2.message,"bad"); }
+  }
+  renderRoleChrome(); render();
+});
+$("#gh-clear").addEventListener("click", ()=>{ localStorage.removeItem(GH_KEY); store.gh=null; store.data=store.loadLocal(); fillGhSettings(); renderRoleChrome(); render(); toast("اتصال گیت‌هاب قطع شد","ok"); });
+
+async function commit(msg){
+  if(store.ghReady()){
+    try{ await store.save(msg); toast(msg+" (در گیت‌هاب ذخیره شد)"); }
+    catch(e){ toast("خطا در ذخیره‌ی گیت‌هاب: "+e.message,"bad"); store.saveLocal(); }
+  } else { store.saveLocal(); toast(msg+" (در این مرورگر ذخیره شد)","ok"); }
+  render();
+}
+
+/* ---------- رویدادها ---------- */
+$("#tab-student").addEventListener("click",()=>setRoleForLogin(true));
+$("#tab-teacher").addEventListener("click",()=>setRoleForLogin(false));
+$("#login-btn").addEventListener("click",doLogin);
+$("#pwd").addEventListener("keydown",e=>{ if(e.key==="Enter") doLogin(); });
+$("#logout-btn").addEventListener("click",logout);
+$("#tab-assign").addEventListener("click",()=>switchTab("assign"));
+$("#tab-ann").addEventListener("click",()=>switchTab("ann"));
+$("#tab-sched").addEventListener("click",()=>switchTab("sched"));
+
+function boot(){
+  store.init();
+  const saved=sessionStorage.getItem("classSite_role");
+  if(saved){ role=saved; enterApp(role); }
+  else { show("login"); setRoleForLogin(true); }
+}
+boot();
+</script>
+</body>
+</html>
